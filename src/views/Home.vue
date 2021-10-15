@@ -1,7 +1,7 @@
 <template>
   <div class="xmb h-full">
-    <div class="xmb-horizon-bar flex flex-nowrap">
-      <div class="xmb-list-wrapper bg-gray-200 p-2" v-for="n in 20" :key="n">
+    <div class="xmb-horizon-bar whitespace-nowrap">
+      <div class="xmb-list-wrapper bg-gray-200 p-2 inline-block align-top" v-for="n in 20" :key="n">
         <div class="xmb-list bg-green-200"></div>
       </div>
     </div>

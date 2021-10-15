@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="w-screen h-screen overflow-y-hidden overflow-x-auto" ref="app">
-    <main class="container mx-auto h-full min-w-full" @wheel="mainScrollThrottled">
+    <main class="container mx-auto h-full min-w-max" @wheel="mainScrollThrottled">
       <div class="flex justify-center space-x-4">
         <router-link text :to="{ name: 'Home' }" exact>Home</router-link>
         <router-link text :to="{ name: 'About' }" exact>About</router-link>
