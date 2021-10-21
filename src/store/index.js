@@ -45,7 +45,7 @@ export default new Vuex.Store({
     setXmbIndex(state, index) {
       state.xmbIndex = index;
     },
-    increaseXmbIndex(state, delta = 1) {
+    increaseXmbIndex(state, delta) {
       state.xmbIndex += delta;
       if (state.xmbIndex > state.listCount) {
         state.xmbIndex = state.listCount;

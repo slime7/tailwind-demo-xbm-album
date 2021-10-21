@@ -10,8 +10,9 @@
           :key="n"
       >
         <div
-            class="xmb-list bg-green-200 rounded overflow-hidden"
-            :class="{ 'ring ring-offset-2': n - 1 === xmbIndex }"
+            class="xmb-list bg-green-200 rounded overflow-hidden cursor-pointer"
+            :class="{ 'ring-2 ring-blue-900 ring-offset-2': n - 1 === xmbIndex }"
+            @click="changeIndex(n - 1)"
         >
           <img class="object-contain" v-if="n === 1" :src="albums[0].cover"/>
         </div>
@@ -38,6 +39,12 @@ export default {
     },
     albums() {
       return this.$store.state.albums;
+    },
+  },
+
+  methods: {
+    changeIndex(index) {
+      this.$store.commit('setXmbIndex', index);
     },
   },
 };
