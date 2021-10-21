@@ -17,7 +17,7 @@ export default {
       ev.preventDefault();
       const down = ev.deltaY > 0;
       const up = ev.deltaY < 0;
-      this.$store.commit('increaseXmbIndex', (+down - +up));
+      this.$store.commit('increaseXmbIndex', { delta: (+down - +up) });
     }, 150),
   },
 };

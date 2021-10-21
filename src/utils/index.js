@@ -23,3 +23,5 @@ export function throttle(fn, wait) {
     }
   };
 }
+
+export const firstUpperCase = ([first, ...rest]) => (first ? `${first.toUpperCase()}${rest.join('')}` : '');
