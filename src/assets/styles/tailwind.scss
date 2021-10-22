@@ -7,3 +7,13 @@
     @apply text-8xl;
   }
 }
+
+@layer components {
+  .xmb {
+    .xmb-item-wrapper {
+      &.active .xmb-item {
+        @apply ring-2 ring-blue-900 ring-offset-2 scale-100;
+      }
+    }
+  }
+}

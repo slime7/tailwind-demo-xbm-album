@@ -40,26 +40,95 @@ export default new Vuex.Store({
           },
         ],
       },
+      {
+        cover: '/mock/album1/07.png',
+        desc: '',
+        items: [
+          {
+            url: '/mock/album1/07.png',
+            desc: '',
+          },
+          {
+            url: '/mock/album1/08.png',
+            desc: '',
+          },
+          {
+            url: '/mock/album1/09.png',
+            desc: '',
+          },
+        ],
+      },
+      {
+        cover: '/mock/album1/10.png',
+        desc: '',
+        items: [
+          {
+            url: '/mock/album1/10.png',
+            desc: '',
+          },
+          {
+            url: '/mock/album1/11.png',
+            desc: '',
+          },
+          {
+            url: '/mock/album1/12.png',
+            desc: '',
+          },
+        ],
+      },
+      {
+        cover: '/mock/album1/13.png',
+        desc: '',
+        items: [
+          {
+            url: '/mock/album1/13.png',
+            desc: '',
+          },
+          {
+            url: '/mock/album1/14.png',
+            desc: '',
+          },
+          {
+            url: '/mock/album1/15.png',
+            desc: '',
+          },
+          {
+            url: '/mock/album1/16.png',
+            desc: '',
+          },
+        ],
+      },
     ],
+  },
+
+  getters: {
+    currentAlbum: (state) => state.albums[state.xmbListIndex].items,
   },
 
   mutations: {
     setXmbIndex(state, { listIndex = undefined, itemIndex = undefined }) {
-      if (typeof listIndex !== 'undefined') {
+      if (typeof listIndex !== 'undefined' && listIndex !== state.xmbListIndex) {
+        state.xmbItemIndex = 0;
         state.xmbListIndex = listIndex;
       }
-      if (typeof itemIndex !== 'undefined') {
+      if (typeof itemIndex !== 'undefined' && itemIndex !== state.xmbItemIndex) {
         state.xmbItemIndex = itemIndex;
       }
     },
     increaseXmbIndex(state, { delta, type = 'list' }) {
       const stateName = `xmb${firstUpperCase(type)}Index`;
-      state[stateName] += delta;
-      if (state[stateName] > state.listCount - 1) {
-        // state[stateName] = state.listCount - 1;
+      let targetIndex = state[stateName] + delta;
+      if (type === 'list' && targetIndex > state.albums.length) {
+        targetIndex = state.albums.length;
       }
-      if (state[stateName] < 0) {
-        state[stateName] = 0;
+      if (targetIndex < 0) {
+        targetIndex = 0;
+      }
+      if (state[stateName] !== targetIndex) {
+        if (type === 'list') {
+          state.xmbItemIndex = 0;
+        }
+        state[stateName] = targetIndex;
       }
     },
   },

@@ -1,51 +1,97 @@
 <template>
-  <div class="xmb h-full relative">
-    <ul
-        class="xmb-vertical-bar absolute transition-all"
-        :style="xmbItemY"
-    >
-      <li
-          class="xmb-item-wrapper p-2"
-          v-for="(item, index) in album"
-          :key="index"
-      >
-        <div
-            class="xmb-item rounded-xl overflow-hidden cursor-pointer transform-gpu scale-90"
-            :class="{ 'ring-2 ring-blue-900 ring-offset-2 scale-100': index - 1 === xmbItemIndex }"
-            @click="changeItemIndex(index)"
-        >
-          <img class="object-contain" :src="item.url" v-if="item.url"/>
-        </div>
-      </li>
-    </ul>
-
+  <XMB>
     <ul
         class="xmb-horizon-bar whitespace-nowrap min-w-max transition-transform"
         :style="xmbListX"
     >
       <li
-          class="xmb-list-wrapper p-2 inline-block align-top"
-          v-for="n in listCount"
-          :key="n"
+          class="xmb-list-wrapper p-2 inline-block align-top relative"
+          v-for="(album, index) in albums"
+          :key="index"
       >
-        <div
-            class="xmb-list-preview bg-green-200 rounded-xl overflow-hidden cursor-pointer"
-            @click="changeListIndex(n - 1)"
+        <ul
+            class="xmb-vertical-bar absolute left-0 top-0 transition-all"
+            :style="xmbItemY"
+            v-show="index === xmbListIndex"
         >
-          <img class="object-contain" v-if="n === 1" :src="albums[n - 1].cover"/>
+          <li
+              class="xmb-item-wrapper p-2"
+              v-for="(item, index) in album.items"
+              :key="index"
+              :class="{ active: index === xmbItemIndex }"
+          >
+            <div
+                class="xmb-item rounded-xl overflow-hidden cursor-pointer transform-gpu scale-90"
+                @click="changeItemIndex(index)"
+            >
+              <img class="object-contain" :src="item.url" v-if="item.url"/>
+            </div>
+          </li>
+        </ul>
+
+        <div
+            class="xmb-list-preview bg-green-200 rounded-xl overflow-hidden cursor-pointer relative z-10"
+            @click="changeListIndex(index)"
+        >
+          <img class="object-contain" :src="album.cover"/>
+        </div>
+      </li>
+
+      <li class="xmb-list-wrapper p-2 inline-block align-top relative">
+        <ul
+            class="xmb-vertical-bar absolute left-0 top-0 transition-all"
+            :style="xmbItemY"
+            v-show="listCount === xmbListIndex"
+        >
+          <li
+              class="xmb-item-wrapper p-2"
+              :class="{ active: 0 === xmbItemIndex }"
+          >
+            <div
+                class="xmb-item rounded-xl overflow-hidden cursor-pointer transform-gpu scale-90"
+                @click="changeItemIndex(0)"
+            >
+              111
+            </div>
+          </li>
+
+          <li
+              class="xmb-item-wrapper p-2"
+              :class="{ active: 1 === xmbItemIndex }"
+          >
+            <div
+                class="xmb-item rounded-xl overflow-hidden cursor-pointer transform-gpu scale-90"
+                @click="changeItemIndex(1)"
+            >
+              222
+            </div>
+          </li>
+        </ul>
+
+        <div
+            class="xmb-list-preview bg-green-200 rounded-xl overflow-hidden cursor-pointer relative z-10"
+            @click="changeListIndex(listCount)"
+        >
+          <div class="text-3xl text-center mt-8">关于</div>
         </div>
       </li>
     </ul>
-  </div>
+  </XMB>
 </template>
 
 <script>
+import XMB from '@/components/XMB.vue';
+
 export default {
   name: 'Home',
 
+  components: {
+    XMB,
+  },
+
   computed: {
     listCount() {
-      return this.$store.state.listCount;
+      return this.$store.state.albums.length;
     },
     xmbListIndex() {
       return this.$store.state.xmbListIndex;
@@ -70,14 +116,6 @@ export default {
     albums() {
       return this.$store.state.albums;
     },
-    album() {
-      if (this.xmbListIndex !== 0) {
-        return [];
-      }
-      const albumCopy = [...this.albums[this.xmbListIndex].items];
-      albumCopy.splice(this.xmbItemIndex, 0, {});
-      return albumCopy;
-    },
   },
 
   methods: {
@@ -85,8 +123,7 @@ export default {
       this.$store.commit('setXmbIndex', { listIndex: index });
     },
     changeItemIndex(index) {
-      const placeholderIndex = this.album.findIndex((i) => !i.url);
-      this.$store.commit('setXmbIndex', { itemIndex: index >= placeholderIndex ? index - 1 : index });
+      this.$store.commit('setXmbIndex', { itemIndex: index });
     },
   },
 };
@@ -109,6 +146,12 @@ export default {
   .xmb-list-preview {
     width: var(--xmb-item-width);
     height: var(--xmb-item-height);
+  }
+
+  .xmb-item-wrapper {
+    &.active {
+      margin-top: calc(var(--xmb-item-height) + 16px);
+    }
   }
 
   .xmb-item {
