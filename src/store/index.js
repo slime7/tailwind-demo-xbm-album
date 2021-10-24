@@ -121,6 +121,14 @@ export default new Vuex.Store({
       if (type === 'list' && targetIndex > state.albums.length) {
         targetIndex = state.albums.length;
       }
+      if (type === 'item' && state.xmbListIndex !== state.albums.length) {
+        const currentAlbum = state.albums[state.xmbListIndex].items;
+        if (targetIndex > currentAlbum.length - 1) {
+          targetIndex = currentAlbum.length - 1;
+        }
+      } else if (type === 'item' && state.xmbListIndex === state.albums.length && targetIndex > 1) {
+        targetIndex = 1;
+      }
       if (targetIndex < 0) {
         targetIndex = 0;
       }
@@ -133,6 +141,5 @@ export default new Vuex.Store({
     },
   },
 
-  actions: {
-  },
+  actions: {},
 });
