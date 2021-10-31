@@ -1,76 +1,60 @@
 <template>
   <XMB>
     <ul
-        class="xmb-horizon-bar whitespace-nowrap min-w-max transition-transform"
-        :style="xmbListX"
+      class="xmb-horizon-bar whitespace-nowrap min-w-max transition-transform"
+      :style="xmbListX"
     >
       <li
-          class="xmb-list-wrapper p-2 inline-block align-top relative"
-          v-for="(album, index) in albums"
-          :key="index"
+        class="xmb-list-wrapper p-2 inline-block align-top relative"
+        v-for="(album, index) in albums"
+        :key="index"
       >
         <ul
-            class="xmb-vertical-bar absolute left-0 top-0 transition-all"
-            :style="xmbItemY"
-            v-show="index === xmbListIndex"
+          class="xmb-vertical-bar absolute left-0 top-0 transition-all"
+          :style="xmbItemY"
+          v-show="index === xmbListIndex"
         >
-          <li
-              class="xmb-item-wrapper p-2"
-              v-for="(item, index) in album.items"
-              :key="index"
-              :class="{ active: index === xmbItemIndex }"
-          >
-            <div
-                class="xmb-item rounded-xl overflow-hidden cursor-pointer transform-gpu scale-90"
-                @click="changeItemIndex(index)"
-            >
-              <img class="object-contain" :src="item.url" v-if="item.url"/>
-            </div>
-          </li>
+          <XMBItem
+            v-for="(item, index) in album.items"
+            :key="index"
+            :item="item"
+            @changeItemIndex="changeItemIndex(index)"
+            :active="index === xmbItemIndex"
+          />
         </ul>
 
         <div
-            class="xmb-list-preview bg-green-200 rounded-xl overflow-hidden cursor-pointer relative z-10"
-            @click="changeListIndex(index)"
+          class="xmb-list-preview bg-green-200 rounded-xl overflow-hidden cursor-pointer relative z-10"
+          @click="changeListIndex(index)"
         >
-          <img class="object-contain" :src="album.cover"/>
+          <img class="object-contain" :src="album.cover" />
         </div>
       </li>
 
       <li class="xmb-list-wrapper p-2 inline-block align-top relative">
         <ul
-            class="xmb-vertical-bar absolute left-0 top-0 transition-all"
-            :style="xmbItemY"
-            v-show="listCount === xmbListIndex"
+          class="xmb-vertical-bar absolute left-0 top-0 transition-all"
+          :style="xmbItemY"
+          v-show="listCount === xmbListIndex"
         >
-          <li
-              class="xmb-item-wrapper p-2"
-              :class="{ active: 0 === xmbItemIndex }"
-          >
-            <div
-                class="xmb-item rounded-xl overflow-hidden cursor-pointer transform-gpu scale-90"
-                @click="changeItemIndex(0)"
-            >
-              111
-            </div>
-          </li>
+          <XMBItem
+            type="text"
+            :item="{ content: 111 }"
+            @changeItemIndex="changeItemIndex(0)"
+            :active="0 === xmbItemIndex"
+          />
 
-          <li
-              class="xmb-item-wrapper p-2"
-              :class="{ active: 1 === xmbItemIndex }"
-          >
-            <div
-                class="xmb-item rounded-xl overflow-hidden cursor-pointer transform-gpu scale-90"
-                @click="changeItemIndex(1)"
-            >
-              222
-            </div>
-          </li>
+          <XMBItem
+            type="text"
+            :item="{ content: 222 }"
+            @changeItemIndex="changeItemIndex(1)"
+            :active="1 === xmbItemIndex"
+          />
         </ul>
 
         <div
-            class="xmb-list-preview bg-green-200 rounded-xl overflow-hidden cursor-pointer relative z-10"
-            @click="changeListIndex(listCount)"
+          class="xmb-list-preview bg-green-200 rounded-xl overflow-hidden cursor-pointer relative z-10"
+          @click="changeListIndex(listCount)"
         >
           <div class="text-3xl text-center mt-8">关于</div>
         </div>
@@ -81,12 +65,14 @@
 
 <script>
 import XMB from '@/components/XMB.vue';
+import XMBItem from '@/components/XMBItem.vue';
 
 export default {
   name: 'Home',
 
   components: {
     XMB,
+    XMBItem,
   },
 
   computed: {
@@ -129,7 +115,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .xmb {
   --xmb-item-width: 240px;
   --xmb-item-height: 135px;

@@ -1,8 +1,8 @@
 <template>
   <div
-      class="xmb h-full relative"
-      ref="xmb"
-      @wheel="mainScrollThrottled"
+    class="xmb h-full relative"
+    ref="xmb"
+    @wheel="mainScrollThrottled"
   >
     <slot></slot>
   </div>
