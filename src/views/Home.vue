@@ -24,7 +24,7 @@
         </ul>
 
         <div
-          class="xmb-list-preview bg-green-200 rounded-xl overflow-hidden cursor-pointer relative z-10"
+          class="xmb-list-preview bg-emerald-200 rounded-xl overflow-hidden cursor-pointer relative z-10"
           @click="changeListIndex(index)"
         >
           <img class="object-contain" :src="album.cover" />
@@ -53,7 +53,7 @@
         </ul>
 
         <div
-          class="xmb-list-preview bg-green-200 rounded-xl overflow-hidden cursor-pointer relative z-10"
+          class="xmb-list-preview bg-emerald-200 rounded-xl overflow-hidden cursor-pointer relative z-10"
           @click="changeListIndex(listCount)"
         >
           <div class="text-3xl text-center mt-8">关于</div>

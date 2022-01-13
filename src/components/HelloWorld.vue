@@ -19,7 +19,7 @@
       </a>
     </p>
 
-    <button class="px-4 py-2 text-white bg-green-400 hover:bg-green-700 rounded-md" @click="count++">
+    <button class="px-4 py-2 text-white bg-emerald-400 hover:bg-emerald-700 rounded-md" @click="count++">
       <span>count is: {{ count }}</span>
     </button>
     <p>
