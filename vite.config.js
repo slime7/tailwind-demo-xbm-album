@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { createVuePlugin } from 'vite-plugin-vue2';
+import vue from '@vitejs/plugin-vue';
 import path from 'path';
 
 /**
@@ -15,10 +15,9 @@ module.exports = {
     ],
   },
   plugins: [
-    createVuePlugin(),
+    vue(),
   ],
   server: {
     host: '0.0.0.0',
-    port: 8080,
   },
 };
