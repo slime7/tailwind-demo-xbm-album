@@ -6,7 +6,7 @@ module.exports = {
     node: true,
   },
   extends: [
-    'plugin:vue/essential',
+    'plugin:vue/vue3-essential',
     'airbnb-base',
   ],
   parserOptions: {
@@ -27,6 +27,8 @@ module.exports = {
     },
   },
   rules: {
+    // Enable vue/script-setup-uses-vars rule
+    'vue/script-setup-uses-vars': 'error',
     'import/extensions': ['error', 'always', {
       js: 'never',
       mjs: 'never',
@@ -46,5 +48,11 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'max-len': ['error', { code: 120 }],
     'no-async-promise-executor': 'off',
+  },
+  globals: {
+    defineProps: 'readonly',
+    defineEmits: 'readonly',
+    defineExpose: 'readonly',
+    withDefaults: 'readonly',
   },
 };
