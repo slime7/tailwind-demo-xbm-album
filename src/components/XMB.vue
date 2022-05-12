@@ -10,6 +10,9 @@
 
 <script>
 import { throttle } from '@/utils';
+import useGlobalStore from '@/store/useGlobalStore';
+
+const globalStore = useGlobalStore();
 
 export default {
   name: 'XMB',
@@ -19,22 +22,22 @@ export default {
       ev.preventDefault();
       const down = ev.deltaY > 0;
       const up = ev.deltaY < 0;
-      this.$store.commit('increaseXmbIndex', { delta: (+down - +up) });
+      globalStore.increaseXmbIndex({ delta: (+down - +up) });
     }, 150),
     onArrowKey(ev) {
       const { key } = ev;
       switch (key) {
         case 'ArrowRight':
-          this.$store.commit('increaseXmbIndex', { delta: 1 });
+          globalStore.increaseXmbIndex({ delta: 1 });
           break;
         case 'ArrowLeft':
-          this.$store.commit('increaseXmbIndex', { delta: -1 });
+          globalStore.increaseXmbIndex({ delta: -1 });
           break;
         case 'ArrowUp':
-          this.$store.commit('increaseXmbIndex', { delta: -1, type: 'item' });
+          globalStore.increaseXmbIndex({ delta: -1, type: 'item' });
           break;
         case 'ArrowDown':
-          this.$store.commit('increaseXmbIndex', { delta: 1, type: 'item' });
+          globalStore.increaseXmbIndex({ delta: 1, type: 'item' });
           break;
         default:
           break;

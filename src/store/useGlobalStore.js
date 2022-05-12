@@ -1,8 +1,8 @@
-import { createStore } from 'vuex';
+import { defineStore } from 'pinia'
 import { firstUpperCase } from '@/utils';
 
-export default createStore({
-  state: {
+export default defineStore('globalStore', {
+  state: () => ({
     listCount: 20,
     xmbListIndex: 0,
     xmbItemIndex: 0,
@@ -96,47 +96,45 @@ export default createStore({
         ],
       },
     ],
-  },
+  }),
 
   getters: {
     currentAlbum: (state) => state.albums[state.xmbListIndex].items,
   },
 
-  mutations: {
-    setXmbIndex(state, { listIndex = undefined, itemIndex = undefined }) {
-      if (typeof listIndex !== 'undefined' && listIndex !== state.xmbListIndex) {
-        state.xmbItemIndex = 0;
-        state.xmbListIndex = listIndex;
+  actions: {
+    setXmbIndex({ listIndex = undefined, itemIndex = undefined }) {
+      if (typeof listIndex !== 'undefined' && listIndex !== this.xmbListIndex) {
+        this.xmbItemIndex = 0;
+        this.xmbListIndex = listIndex;
       }
-      if (typeof itemIndex !== 'undefined' && itemIndex !== state.xmbItemIndex) {
-        state.xmbItemIndex = itemIndex;
+      if (typeof itemIndex !== 'undefined' && itemIndex !== this.xmbItemIndex) {
+        this.xmbItemIndex = itemIndex;
       }
     },
-    increaseXmbIndex(state, { delta, type = 'list' }) {
+    increaseXmbIndex({ delta, type = 'list' }) {
       const stateName = `xmb${firstUpperCase(type)}Index`;
-      let targetIndex = state[stateName] + delta;
-      if (type === 'list' && targetIndex > state.albums.length) {
-        targetIndex = state.albums.length;
+      let targetIndex = this[stateName] + delta;
+      if (type === 'list' && targetIndex > this.albums.length) {
+        targetIndex = this.albums.length;
       }
-      if (type === 'item' && state.xmbListIndex !== state.albums.length) {
-        const currentAlbum = state.albums[state.xmbListIndex].items;
+      if (type === 'item' && this.xmbListIndex !== this.albums.length) {
+        const currentAlbum = this.albums[this.xmbListIndex].items;
         if (targetIndex > currentAlbum.length - 1) {
           targetIndex = currentAlbum.length - 1;
         }
-      } else if (type === 'item' && state.xmbListIndex === state.albums.length && targetIndex > 1) {
+      } else if (type === 'item' && this.xmbListIndex === this.albums.length && targetIndex > 1) {
         targetIndex = 1;
       }
       if (targetIndex < 0) {
         targetIndex = 0;
       }
-      if (state[stateName] !== targetIndex) {
+      if (this[stateName] !== targetIndex) {
         if (type === 'list') {
-          state.xmbItemIndex = 0;
+          this.xmbItemIndex = 0;
         }
-        state[stateName] = targetIndex;
+        this[stateName] = targetIndex;
       }
     },
   },
-
-  actions: {},
 });

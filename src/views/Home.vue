@@ -66,6 +66,9 @@
 <script>
 import XMB from '@/components/XMB.vue';
 import XMBItem from '@/components/XMBItem.vue';
+import useGlobalStore from '@/store/useGlobalStore';
+
+const globalStore = useGlobalStore();
 
 export default {
   name: 'Home',
@@ -77,13 +80,13 @@ export default {
 
   computed: {
     listCount() {
-      return this.$store.state.albums.length;
+      return globalStore.albums.length;
     },
     xmbListIndex() {
-      return this.$store.state.xmbListIndex;
+      return globalStore.xmbListIndex;
     },
     xmbItemIndex() {
-      return this.$store.state.xmbItemIndex;
+      return globalStore.xmbItemIndex;
     },
     xmbListX() {
       const width = 240;
@@ -100,16 +103,16 @@ export default {
       };
     },
     albums() {
-      return this.$store.state.albums;
+      return globalStore.albums;
     },
   },
 
   methods: {
     changeListIndex(index) {
-      this.$store.commit('setXmbIndex', { listIndex: index });
+      globalStore.setXmbIndex({ listIndex: index });
     },
     changeItemIndex(index) {
-      this.$store.commit('setXmbIndex', { itemIndex: index });
+      globalStore.setXmbIndex({ itemIndex: index });
     },
   },
 };
