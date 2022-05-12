@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia'
+import { defineStore, acceptHMRUpdate } from 'pinia';
 import { firstUpperCase } from '@/utils';
 
-export default defineStore('globalStore', {
+const useGlobalStore = defineStore('globalStore', {
   state: () => ({
     listCount: 20,
     xmbListIndex: 0,
@@ -138,3 +138,9 @@ export default defineStore('globalStore', {
     },
   },
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useGlobalStore, import.meta.hot));
+}
+
+export default useGlobalStore;

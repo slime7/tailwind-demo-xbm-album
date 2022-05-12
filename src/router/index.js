@@ -5,7 +5,6 @@ const routes = [
   {
     path: '/',
     component: Base,
-    meta: { requiresAuth: true },
     children: [
       {
         path: '',

@@ -1,54 +1,46 @@
 <template>
-  <div
-    class="xmb h-full relative"
-    ref="xmb"
-    @wheel="mainScrollThrottled"
-  >
+  <div class="xmb h-full relative" ref="xmb" @wheel="mainScrollThrottled">
     <slot></slot>
   </div>
 </template>
 
-<script>
+<script setup>
+import { onMounted } from 'vue';
 import { throttle } from '@/utils';
 import useGlobalStore from '@/store/useGlobalStore';
 
 const globalStore = useGlobalStore();
 
-export default {
-  name: 'XMB',
+const mainScrollThrottled = throttle((ev) => {
+  ev.preventDefault();
+  const down = ev.deltaY > 0;
+  const up = ev.deltaY < 0;
+  globalStore.increaseXmbIndex({ delta: +down - +up });
+}, 150);
 
-  methods: {
-    mainScrollThrottled: throttle(function mainScroll(ev) {
-      ev.preventDefault();
-      const down = ev.deltaY > 0;
-      const up = ev.deltaY < 0;
-      globalStore.increaseXmbIndex({ delta: (+down - +up) });
-    }, 150),
-    onArrowKey(ev) {
-      const { key } = ev;
-      switch (key) {
-        case 'ArrowRight':
-          globalStore.increaseXmbIndex({ delta: 1 });
-          break;
-        case 'ArrowLeft':
-          globalStore.increaseXmbIndex({ delta: -1 });
-          break;
-        case 'ArrowUp':
-          globalStore.increaseXmbIndex({ delta: -1, type: 'item' });
-          break;
-        case 'ArrowDown':
-          globalStore.increaseXmbIndex({ delta: 1, type: 'item' });
-          break;
-        default:
-          break;
-      }
-    },
-  },
-
-  mounted() {
-    document.addEventListener('keyup', this.onArrowKey);
-  },
+const onArrowKey = (ev) => {
+  const { key } = ev;
+  switch (key) {
+    case 'ArrowRight':
+      globalStore.increaseXmbIndex({ delta: 1 });
+      break;
+    case 'ArrowLeft':
+      globalStore.increaseXmbIndex({ delta: -1 });
+      break;
+    case 'ArrowUp':
+      globalStore.increaseXmbIndex({ delta: -1, type: 'item' });
+      break;
+    case 'ArrowDown':
+      globalStore.increaseXmbIndex({ delta: 1, type: 'item' });
+      break;
+    default:
+      break;
+  }
 };
+
+onMounted(() => {
+  document.addEventListener('keyup', onArrowKey);
+});
 </script>
 
 <style lang="scss">

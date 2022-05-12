@@ -14,29 +14,27 @@
   </li>
 </template>
 
-<script>
-export default {
-  name: 'XMBItem',
-
-  props: {
-    type: {
-      default: 'picture',
-      type: String,
-    },
-    active: {
-      default: false,
-      type: Boolean,
-    },
-    item: {
-      type: Object,
-      required: true,
-    },
+<script setup>
+defineProps({
+  type: {
+    default: 'picture',
+    type: String,
   },
-
-  methods: {
-    changeItemIndex() {
-      this.$emit('changeItemIndex');
-    },
+  active: {
+    default: false,
+    type: Boolean,
   },
+  item: {
+    type: Object,
+    required: true,
+  },
+});
+
+const emit = defineEmits([
+  'changeItemIndex',
+]);
+
+const changeItemIndex = () => {
+  emit('changeItemIndex');
 };
 </script>
